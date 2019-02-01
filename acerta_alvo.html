@@ -1,0 +1,68 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+
+	var tela = document.querySelector("canvas");
+	var pincel = tela.getContext("2d");
+
+	function desenhaCirculo(x, y, raio, cor){
+
+		pincel.fillStyle = cor;
+		pincel.beginPath();
+		pincel.arc(x, y, raio, 0, 2 * 3.14);
+		pincel.fill();
+
+	}
+
+	function desenhaAlvo(eixoX, eixoY){
+		desenhaCirculo(eixoX, eixoY, 30, "red");
+		desenhaCirculo(eixoX, eixoY, 20, "white");
+		desenhaCirculo(eixoX, eixoY, 10, "red");
+
+
+	}
+
+	function limpaTela(){
+		pincel.clearRect(0, 0, 600, 400);
+	}
+
+	function sorteiaCoordenadaX(){
+		var x = Math.floor(Math.random() * 600);
+		return x;
+	}
+
+	function sorteiaCoordenadaY(){
+		var y = Math.floor(Math.random() * 400);
+		return y;
+	}
+		var xPc;
+		var yPC;
+	function atualizaTela(evento){
+		limpaTela();
+		xPC = sorteiaCoordenadaX();
+		yPC = sorteiaCoordenadaY();
+		desenhaAlvo(xPC, yPC);
+
+	}
+
+	var xUsuario;
+	var yUsuario;
+	function dispara(evento){
+
+		xUsuario = evento.pageX - tela.offsetLeft;
+		yUsuario = evento.pageY - tela.offsetTop;
+		if((xPC < xUsuario + 10)
+			&& (xPC > xUsuario - 10)
+			&& (yPC < yUsuario + 10)
+			&& (yPC > yUsuario - 10)){
+			alert("Voce acertou!!");
+		}
+	}
+
+
+	setInterval(atualizaTela, 1000);
+
+	tela.onclick = dispara;
+
+
+</script>
